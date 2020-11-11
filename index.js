@@ -83,8 +83,19 @@ function Car(model, milesPerGallon) {
 
 Car.prototype.fill = function (gallons){
   this.tank += gallons;
-
 }
+
+Car.prototype.drive = function (distance){
+  const drivableMiles = this.milesPerGallon*this.tank;
+  if (drivableMiles > distance){ 
+    this.odometer = this.odometer + distance;
+    this.tank =  this.tank - distance/this.milesPerGallon;}
+     else {
+      this.odometer += drivableMiles;
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles`
+    }
+  }
 
 /*
   TASK 3
@@ -93,18 +104,26 @@ Car.prototype.fill = function (gallons){
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
+function Baby(name, age, favoriteToy) {
+  this.name = name;
+  this.age = age;
+  this.favoriteToy = favoriteToy;
+}
 
+Baby.prototype = Object.create(Person.prototype)
+
+Baby.prototype.play = function(){
+  return `Playing with ${this.favoriteToy}`
 }
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window binding. This means that if we use 'this' without any context, js will default to referencing the object in the window (not an object within our program). Don't use this on purpose.
+  2. Implicit binding - This means that the object that contains the function that uses 'this' is being referenced as 'this'. In order to call a function within an object we use myObject.myFunc() - the object to the left of the dot is what 'this' refers to within myFunc().
+  3. New binding - when we use 'this' within a constructor function, it is referring to the object that the constructor function creates. We use 'new' before constructing the function to make this referential link.
+  4. Explicit binding - these are methods we can use to directly tell our function which object to reference when it uses "this"
 */
 
 
